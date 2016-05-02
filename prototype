@@ -26,8 +26,8 @@ f none /etc/wzfsadm/poolmodule.conf=conf/poolmodule.conf 644 root sys
 
 # Default SSL properties 
 d none /etc/wzfsadm/ssl 755 root sys
-f none /etc/wzfsadm/ssl/key.pem=wzfsadm/server/key.pem 644 root sys
-f none /etc/wzfsadm/ssl/cert.pem=wzfsadm/server/cert.pem 644 root sys
+f none /etc/wzfsadm/ssl/key.pem=ssl/key.pem 644 root sys
+f none /etc/wzfsadm/ssl/cert.pem=ssl/cert.pem 644 root sys
 
 # User database
 f none /etc/wzfsadm/.auth_file=auth/.auth_file 600 wzfsadm staff 
