@@ -21,8 +21,8 @@ f none server/Authenticator.py=wzfsadm/server/Authenticator.py 644 wzfsadm staff
 d none /etc/wzfsadm 755 root sys
 
 # Default config
-f none /etc/wzfsadm/main.conf=wzfsadm/conf/main.conf 644 root sys
-f none /etc/wzfsadm/poolmodule.conf=wzfsadm/conf/poolmodule.conf 644 root sys
+f none /etc/wzfsadm/main.conf=conf/main.conf 644 root sys
+f none /etc/wzfsadm/poolmodule.conf=conf/poolmodule.conf 644 root sys
 
 # Default SSL properties 
 d none /etc/wzfsadm/ssl 755 root sys
@@ -30,7 +30,7 @@ f none /etc/wzfsadm/ssl/key.pem=wzfsadm/server/key.pem 644 root sys
 f none /etc/wzfsadm/ssl/cert.pem=wzfsadm/server/cert.pem 644 root sys
 
 # User database
-f none /etc/wzfsadm/.auth_file=wzfsadm/auth/.auth_file 600 wzfsadm staff 
+f none /etc/wzfsadm/.auth_file=auth/.auth_file 600 wzfsadm staff 
 
 # Application
 d none app 755 wzfsadm staff
