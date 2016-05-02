@@ -1,0 +1,15 @@
+body {
+  padding-top: 50px;
+}
+
+#history {
+  overflow: scroll;
+  height:120px;
+}
+
+#dashistory {
+  overflow: scroll;
+  height:200px;
+}
+
+
