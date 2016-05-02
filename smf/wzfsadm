@@ -1,0 +1,32 @@
+#!/bin/pfbash
+APPLICATION_ROOT=/usr/wzfsadm
+
+LOG=/var/log/wzfsadm/default_log
+ERROR_LOG=/var/log/wzfsadm/error_log
+
+case $1 in
+
+'start')
+	# Run application on background
+	${APPLICATION_ROOT}/run.py 1>>"$LOG" 2>>"$ERROR_LOG" &
+	# Save PID of process to file
+	echo "$!" > ${APPLICATION_ROOT}/run/process.pid
+	;;
+'stop')	
+	# Get PID of running application
+	PID=`cat ${APPLICATION_ROOT}/run/process.pid`
+	# Kill the application
+	kill $PID &>/dev/null
+	rm ${APPLICATION_ROOT}/run/process.pid
+	;;
+'restart')
+	echo 'restart'
+	;;
+*)
+	echo 'default'
+	exit 1
+	;;
+
+esac
+
+exit 0
