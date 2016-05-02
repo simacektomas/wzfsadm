@@ -1,0 +1,149 @@
+i pkginfo
+
+i preinstall
+i checkinstall
+i postinstall
+i preremove
+i postremove
+
+# Application sources
+# Start application script
+f none run.py=wzfsadm/run.py 755 wzfsadm staff
+
+# Server 
+d none server 755 wzfsadm staff
+f none server/__init__.py=wzfsadm/server/__init__.py 644 wzfsadm staff
+f none server/WzfsadmServer.py=wzfsadm/server/WzfsadmServer.py 644 wzfsadm staff
+f none server/WzfsadmRequestHandler.py=wzfsadm/server/WzfsadmRequestHandler.py 644 wzfsadm staff
+f none server/Authenticator.py=wzfsadm/server/Authenticator.py 644 wzfsadm staff
+
+# Directory for configuration
+d none /etc/wzfsadm 755 root sys
+
+# Default config
+f none /etc/wzfsadm/main.conf=wzfsadm/conf/main.conf 644 root sys
+f none /etc/wzfsadm/poolmodule.conf=wzfsadm/conf/poolmodule.conf 644 root sys
+
+# Default SSL properties 
+d none /etc/wzfsadm/ssl 755 root sys
+f none /etc/wzfsadm/ssl/key.pem=wzfsadm/server/key.pem 644 root sys
+f none /etc/wzfsadm/ssl/cert.pem=wzfsadm/server/cert.pem 644 root sys
+
+# User database
+f none /etc/wzfsadm/.auth_file=wzfsadm/auth/.auth_file 600 wzfsadm staff 
+
+# Application
+d none app 755 wzfsadm staff
+f none app/__init__.py=wzfsadm/app/__init__.py 644 wzfsadm staff
+f none app/App.py=wzfsadm/app/App.py 644 wzfsadm staff
+f none app/Logger.py=wzfsadm/app/Logger.py 644 wzfsadm staff
+
+# Presentation layer
+d none app/view 755 wzfsadm staff
+f none app/view/__init__.py=wzfsadm/app/view/__init__.py 644 wzfsadm staff
+f none app/view/BaseView.py=wzfsadm/app/view/BaseView.py 644 wzfsadm staff
+
+# Logic layer
+d none app/controllers 755 wzfsadm staff
+f none app/controllers/__init__.py=wzfsadm/app/controllers/__init__.py 644 wzfsadm staff
+f none app/controllers/BaseController.py=wzfsadm/app/controllers/BaseController.py 644 wzfsadm staff
+f none app/controllers/DashboardController.py=wzfsadm/app/controllers/DashboardController.py 644 wzfsadm staff
+f none app/controllers/DatasetController.py=wzfsadm/app/controllers/DatasetController.py 644 wzfsadm staff
+f none app/controllers/DeviceController.py=wzfsadm/app/controllers/DeviceController.py 644 wzfsadm staff
+f none app/controllers/ZpoolController.py=wzfsadm/app/controllers/ZpoolController.py 644 wzfsadm staff
+
+# Model layer
+d none app/model 755 wzfsadm staff 
+f none app/model/__init__.py=wzfsadm/app/model/__init__.py 644 wzfsadm staff
+f none app/model/ModuleInterface.py=wzfsadm/app/model/ModuleInterface.py 644 wzfsadm staff
+d none app/model/modules 755 wzfsadm staff
+f none app/model/modules/__init__.py=wzfsadm/app/model/modules/__init__.py 644 wzfsadm staff
+f none app/model/modules/BaseModuleClass.py=wzfsadm/app/model/modules/BaseModuleClass.py 644 wzfsadm staff
+d none app/model/modules/DatasetModule 755 wzfsadm staff
+f none app/model/modules/DatasetModule/__init__.py=wzfsadm/app/model/modules/DatasetModule/__init__.py 644 wzfsadm staff
+f none app/model/modules/DatasetModule/Dataset.py=wzfsadm/app/model/modules/DatasetModule/Dataset.py 644 wzfsadm staff
+f none app/model/modules/DatasetModule/DatasetSource.py=wzfsadm/app/model/modules/DatasetModule/DatasetSource.py 644 wzfsadm staff
+d none app/model/modules/DeviceModule 755 wzfsadm staff
+f none app/model/modules/DeviceModule/__init__.py=wzfsadm/app/model/modules/DeviceModule/__init__.py 644 wzfsadm staff
+f none app/model/modules/DeviceModule/DeviceSource.py=wzfsadm/app/model/modules/DeviceModule/DeviceSource.py 644 wzfsadm staff
+d none app/model/modules/PoolModule 755 wzfsadm staff
+f none app/model/modules/PoolModule/__init__.py=wzfsadm/app/model/modules/PoolModule/__init__.py 644 wzfsadm staff
+f none app/model/modules/PoolModule/PoolSource.py=wzfsadm/app/model/modules/PoolModule/PoolSource.py 644 wzfsadm staff
+f none app/model/modules/PoolModule/Pool.py=wzfsadm/app/model/modules/PoolModule/Pool.py 644 wzfsadm staff
+d none app/model/modules/PoolModule/shell 755 wzfsadm staff
+f none app/model/modules/PoolModule/shell/listdisk.sh=wzfsadm/app/model/modules/PoolModule/shell/listdisk.sh 744 wzfsadm staff
+f none app/model/modules/PoolModule/shell/listfiles.sh=wzfsadm/app/model/modules/PoolModule/shell/listfiles.sh 744 wzfsadm staff
+f none app/model/modules/PoolModule/shell/listsources.sh=wzfsadm/app/model/modules/PoolModule/shell/listsources.sh 744 wzfsadm staff
+d none app/model/modules/SystemModule 755 wzfsadm staff
+f none app/model/modules/SystemModule/__init__.py=wzfsadm/app/model/modules/SystemModule/__init__.py 644 wzfsadm staff
+f none app/model/modules/SystemModule/SystemSource.py=wzfsadm/app/model/modules/SystemModule/SystemSource.py 644 wzfsadm staff
+
+# Document root
+d none web 755 wzfsadm staff
+d none web/css 755 wzfsadm staff
+f none web/css/bootstrap-theme.css=wzfsadm/web/css/bootstrap-theme.css 644 wzfsadm staff
+f none web/css/bootstrap-theme.css.map=wzfsadm/web/css/bootstrap-theme.css.map 644 wzfsadm staff
+f none web/css/bootstrap-theme.min.css=wzfsadm/web/css/bootstrap-theme.min.css 644 wzfsadm staff
+f none web/css/bootstrap-theme.min.css.map=wzfsadm/web/css/bootstrap-theme.min.css.map 644 wzfsadm staff
+f none web/css/bootstrap.css=wzfsadm/web/css/bootstrap.css 644 wzfsadm staff
+f none web/css/bootstrap.css.map=wzfsadm/web/css/bootstrap.css.map 644 wzfsadm staff
+f none web/css/bootstrap.min.css=wzfsadm/web/css/bootstrap.min.css 644 wzfsadm staff
+f none web/css/bootstrap.min.css.map=wzfsadm/web/css/bootstrap.min.css.map 644 wzfsadm staff
+f none web/css/custom.css=wzfsadm/web/css/custom.css 644 wzfsadm staff
+d none web/fonts 755 wzfsadm staff
+f none web/fonts/glyphicons-halflings-regular.eot=wzfsadm/web/fonts/glyphicons-halflings-regular.eot 644 wzfsadm staff
+f none web/fonts/glyphicons-halflings-regular.svg=wzfsadm/web/fonts/glyphicons-halflings-regular.svg 644 wzfsadm staff
+f none web/fonts/glyphicons-halflings-regular.ttf=wzfsadm/web/fonts/glyphicons-halflings-regular.ttf 644 wzfsadm staff
+f none web/fonts/glyphicons-halflings-regular.woff=wzfsadm/web/fonts/glyphicons-halflings-regular.woff 644 wzfsadm staff
+f none web/fonts/glyphicons-halflings-regular.woff2=wzfsadm/web/fonts/glyphicons-halflings-regular.woff2 644 wzfsadm staff
+d none web/js 755 wzfsadm staff
+f none web/js/bootstrap.js=wzfsadm/web/js/bootstrap.js 644 wzfsadm staff
+f none web/js/bootstrap.min.js=wzfsadm/web/js/bootstrap.min.js 644 wzfsadm staff
+f none web/js/jquery-1.12.3.js=wzfsadm/web/js/jquery-1.12.3.js 644 wzfsadm staff
+f none web/js/jquery-1.12.3.min.js=wzfsadm/web/js/jquery-1.12.3.min.js 644 wzfsadm staff
+
+# Templates
+d none templates 755 wzfsadm staff
+f none templates/dashboard.html=wzfsadm/templates/dashboard.html 644 wzfsadm staff
+f none templates/dashboard_datasets.html=wzfsadm/templates/dashboard_datasets.html 644 wzfsadm staff
+f none templates/dashboard_management.html=wzfsadm/templates/dashboard_management.html 644 wzfsadm staff
+f none templates/dataset_children.html=wzfsadm/templates/dataset_children.html 644 wzfsadm staff
+f none templates/dataset_detail.html=wzfsadm/templates/dataset_detail.html 644 wzfsadm staff
+f none templates/dataset_management.html=wzfsadm/templates/dataset_management.html 644 wzfsadm staff
+f none templates/dataset_properties.html=wzfsadm/templates/dataset_properties.html 644 wzfsadm staff
+f none templates/dataset_properties_general.html=wzfsadm/templates/dataset_properties_general.html 644 wzfsadm staff
+f none templates/dataset_properties_quotas.html=wzfsadm/templates/dataset_properties_quotas.html 644 wzfsadm staff
+f none templates/dataset_properties_status.html=wzfsadm/templates/dataset_properties_status.html 644 wzfsadm staff
+f none templates/dataset_properties_storage.html=wzfsadm/templates/dataset_properties_storage.html 644 wzfsadm staff
+f none templates/dataset_snapshots.html=wzfsadm/templates/dataset_snapshots.html 644 wzfsadm staff
+f none templates/device_add_form.html=wzfsadm/templates/device_add_form.html 644 wzfsadm staff
+f none templates/device_attach_form.html=wzfsadm/templates/device_attach_form.html 644 wzfsadm staff
+f none templates/layout.html=wzfsadm/templates/layout.html 644 wzfsadm staff
+f none templates/pool_detail.html=wzfsadm/templates/pool_detail.html 644 wzfsadm staff
+f none templates/plain.html=wzfsadm/templates/plain.html 644 wzfsadm staff
+f none templates/sources_form.html=wzfsadm/templates/sources_form.html 644 wzfsadm staff
+f none templates/status_page.html=wzfsadm/templates/status_page.html 644 wzfsadm staff
+f none templates/zpool_create_form.html=wzfsadm/templates/zpool_create_form.html 644 wzfsadm staff
+f none templates/zpool_detail_configuration.html=wzfsadm/templates/zpool_detail_configuration.html 644 wzfsadm staff
+f none templates/zpool_create_status.html=wzfsadm/templates/zpool_create_status.html 644 wzfsadm staff
+f none templates/zpool_detail_management.html=wzfsadm/templates/zpool_detail_management.html 644 wzfsadm staff
+f none templates/zpool_detail_properties.html=wzfsadm/templates/zpool_detail_properties.html 644 wzfsadm staff
+f none templates/zpool_detail_storage.html=wzfsadm/templates/zpool_detail_storage.html 644 wzfsadm staff
+
+# SMF
+f none /lib/svc/method/wzfsadm=smf/wzfsadm 755 root sys
+f none /lib/svc/manifest/system/filesystem/wzfsadm.xml=smf/wzfsadm.xml 444 root sys
+d none smf 755 wzfsadm staff
+f none smf/profile=smf/profile 744 wzfsadm staff
+f none smf/exec=smf/exec 744 wzfsadm staff
+
+
+# Directory for RUN
+d none run 755 wzfsadm staff
+
+# Log directory
+d none /var/log/wzfsadm 755 wzfsadm staff
+
+# Default directory for pool sources ( files )
+d none /var/wzfsadm 755 wzfsadm staff
+d none /var/wzfsadm/sources 755 wzfsadm staff

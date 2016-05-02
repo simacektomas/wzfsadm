@@ -1,0 +1,58 @@
+#!/bin/bash
+
+USER_NAME=wzfsadm
+RBAC_PROFILES="/etc/security/prof_attr.d/core-os"
+RBAC_EXEC="/etc/security/exec_attr.d/core-os"
+
+echo "[INFO] .... Deleting user $USER_NAME that aplication created."
+id -u "$USER_NAME" 1>/dev/null 2>/dev/null
+if [ $? -ne 0 ];
+then
+        # User we want to destroy
+        echo "[OK] .... User $USER_NAME already don't exists."
+else
+	roledel "$USER_NAME" 1>/dev/null 2>/dev/null
+	if [ $? -ne 0 ];
+	then
+		echo "[ERROR] .... Cannot delete user $USER_NAME."
+		exit 1
+	fi
+        echo "[OK] .... User $USER_NAME deleted."
+fi
+
+groupdel "$USER_NAME" &>/dev/null
+if [ $? -ne 0 ];
+then
+
+        echo "[ERROR] .... Group $USER_NAME already don't exists or cannot be deleted."
+else 
+        echo "[OK] .... Group $USER_NAME deleted."
+fi
+# Remove profile from RBAC
+PROFILES="`sed '/\#wzfsadm/,/\#wzfsadm/d' "$RBAC_PROFILES" 2>/dev/null `"
+if [ $? -ne 0 ];
+then
+	echo "[ERROR] .... Cannot delete RBAC profile."
+else
+	echo "$PROFILES" > "$RBAC_PROFILES"
+	echo "[OK] .... RBAC profile was deleted."
+fi
+# Remove RBAC exec attributes
+EXECS="`sed '/\#wzfsadm/,/\#wzfsadm/d' "$RBAC_EXEC" 2>/dev/null`"
+if [ $? -ne 0 ];
+then
+	echo "[ERROR] .... Cannot delete RBAC exec attributes."
+else
+	echo "$EXECS" > "$RBAC_EXEC"
+	echo "[OK] .... Exec attributes was deleted from RBAC."
+fi
+# Uninstall jinja 2 library
+yes | pip uninstall jinja2
+if [ $? -ne 0 ];
+then
+	echo "[ERROR] .... Cannot uninstall jinja2 module."
+else
+	echo "[OK] .... Jinja2 module was succesfully uninstalled."
+fi
+exit 0
+

@@ -1,0 +1,36 @@
+#!/bin/bash
+
+USER_NAME=wzfsadm
+
+
+echo "[INFO] .... Creating user $USER_NAME that will be used to run wzfsadm application."
+id -u "$USER_NAME" 1>/dev/null 2>/dev/null
+if [ $? -eq 0 ];
+then
+	# User we want to create already exist
+	echo "[ERROR] .... User $USER_NAME already exists."
+	exit 1
+
+fi
+# Creating group
+groupadd "$USER_NAME"
+if [ $? -ne 0 ];
+then
+        # Creating role 
+        echo "[ERROR] .... Group $USER_NAME cannot be created."
+        exit 1
+else
+	echo "[OK] .... Group $USER_NAME was created."
+fi
+# Creating user
+roleadd -d / -g "$USER_NAME" -s /usr/bin/pfsh "$USER_NAME" 1>/dev/null 2>/dev/null
+if [ $? -ne 0 ];
+then
+        # Creating role 
+        echo "[ERROR] .... User $USER_NAME cannot be created."
+        exit 1
+else
+	echo "[OK] .... User $USER_NAME was created."
+fi
+exit 0
+

@@ -1,0 +1,69 @@
+#!/bin/bash
+
+ROLE=wzfsadm
+RBAC_PROFILES="/etc/security/prof_attr.d/core-os"
+RBAC_EXEC="/etc/security/exec_attr.d/core-os"
+NEW_PROFILE="/usr/wzfsadm/smf/profile"
+NEW_EXEC="/usr/wzfsadm/smf/exec"
+
+
+# Add RBAC profile to created role
+
+# Restart SMF manifest importer
+svcadm restart manifest-import &>/dev/null
+if [ $? -ne 0 ];
+then
+	echo "[ERROR] .... SMF manifest import cannot be restarted."
+else
+	echo "[OK] .... SMF manifest import was restarted."
+fi
+
+# Create RBAC profile for our ROLE
+# Check if profile already exists
+DUMMY=`grep \#wzfsadm "$RBAC_PROFILES"`
+if [ $? -eq 1 ];
+then
+	echo "" >> "$RBAC_PROFILES"
+	cat "$NEW_PROFILE" >> "$RBAC_PROFILES"
+fi
+
+echo "[OK] .... RBAC profile for wzfsadm created."
+
+
+# Check if already in file
+DUMMY=`grep \#wzfsadm "$RBAC_EXEC"`
+if [ $? -eq 1 ]
+then
+	echo "" >> "$RBAC_EXEC"
+	cat "$NEW_EXEC" >> "$RBAC_EXEC"
+fi
+
+echo "[OK] .... RBAC exec permisions for wzfsadm created."
+
+
+touch "$RBAC_PROFILES"
+touch "$RBAC_EXEC"
+
+# Assign profile to role
+rolemod -P "wzfsadm" "$ROLE"
+if [ $? -ne 0 ];
+then
+	echo "[ERROR] .... RBAC profile cannot be assigned to created role."
+else
+	echo "[OK] .... RBAC profile assigned to created role."
+fi
+
+# Install jinja2 
+echo "[INFO] .... Installing module jinja2 for python."
+pip install jinja2
+if [ $? -ne 0 ];
+then
+	echo "[ERROR] .... Jinja2 module cannot be installed."
+	exit 1
+else
+	echo "[OK] .... Jinja2 module was succesfully installed."
+fi
+
+
+
+

@@ -1,0 +1,11 @@
+ARCH=i386
+VERSION=release 1.0
+
+NAME=Web based administration tool for controlling base function of ZFS. 
+PKG=wzfsadm
+BASEDIR=/usr/wzfsadm
+
+CATEGORY=application
+DESC=Tool for web administration of ZFS file system
+EMAIL=simactom@fit.cvut.cz
+
