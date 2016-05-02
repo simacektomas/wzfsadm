@@ -1,0 +1,25 @@
+<h2><strong>Avaliable datasets <span class="badge">{{ datasets|length }}</span></strong></h2>
+{% if datasets %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <td><strong>Name</strong></td>
+      <td><strong>Used</strong></td>
+      <td><strong>Avaliable</strong></td>
+      <td><strong>Referenced</strong></td>
+      <td><strong>Mountpoint</strong></td>
+    </tr>
+  </thead>
+  <tbody>
+{% for dataset in datasets %}
+    <tr>
+      <td><a href="/dataset/detail?dataset={{ dataset["name"] }}"><strong>{{ dataset["name"] }}</strong></a></td>
+      <td>{{ dataset["used"] }}</td>
+      <td>{{ dataset["avail"] }}</td>
+      <td>{{ dataset["refer"] }}</td>
+      <td><code>{{ dataset["mountpoint"] }}</code></td>
+    </tr>
+{%- endfor %}
+  </tbody>
+{% endif %}
+</table>

@@ -1,0 +1,114 @@
+      <h2><strong>Configuration</strong></h2>
+      <table class="table table-striped" id="configuration">
+        <thead>
+          <tr>
+            <td><strong>Root device</strong></td>
+            <td><strong>Meta device</strong></td>
+            <td><strong>Device</strong></td>
+            <td><strong>State</strong></td>
+            <td><strong>Attach/Detach</strong></td>
+            <td><strong>Online/Offline</strong></td>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for root in zpool["config"] -%}
+            {%- if root["state"] == "ONLINE" -%}
+              {%- set bar = "success" -%}
+            {%- elif root["state"] == "DEGRADED" -%}
+              {%- set bar = "warning" -%}
+            {%- elif root["state"] in [ "FAULTED", "REMOVED", "UNAVAIL" ] -%}
+              {%- set bar = "danger" -%}
+            {%- elif root["state"] == "OFFLINE" -%}
+              {%- set bar = "default" -%}
+            {%- endif -%}
+          <tr>
+            <td><strong>{{ root["name"] }}</strong></td>
+            <td></td>
+            <td></td>            
+            <td><span class="label label-{{ bar }}">{{ root["state"] }}</span></td>
+            <td></td>
+            <td></td>
+          </tr>
+          {# List all it's vdev #}
+            {%- for vdev in root["config"] -%}
+            {%- if vdev["state"] == "ONLINE" -%}
+              {%- set bar = "success" -%}
+              {%- set opposite_state = "offline" -%}
+              {%- set opposite_bar = "danger" -%}
+            {%- elif vdev["state"] == "DEGRADED" -%}
+              {%- set bar = "warning" -%}
+            {%- elif vdev["state"] in [ "FAULTED", "REMOVED", "UNAVAIL" ] -%}
+              {%- set bar = "danger" -%}
+            {%- elif vdev["state"] == "OFFLINE" -%}
+              {%- set bar = "default" -%}
+              {%- set opposite_state = "online" -%}
+              {%- set opposite_bar = "success" -%}
+            {%- endif -%}
+          <tr>
+            <td></td>            
+            <td>{{ vdev["name"] }}</td>
+            <td></td>           
+            <td><span class="label label-{{ bar }}">{{ vdev["state"] }}</span></td>            
+            {%- if not vdev["config"] -%}
+            <td>
+              <div class="btn-group" role="group">
+                <a href="/device/attachform?target_pool={{ zpool["pool"]}}&attach_target={{ vdev["name"] }}" class="btn btn-warning btn-xs">Attach</a>
+                <a href="/device/detach?target_pool={{ zpool["pool"]}}&detach={{ vdev["name"] }}" class="btn btn-danger btn-xs">Detach</a>
+              </div>
+            </td>              
+            <td>
+              <div class="btn-group" role="group">             
+                <a href="/device/state?target_pool={{ zpool["pool"]}}&target_device={{ vdev["name"]}}&status={{ opposite_state }}" class="btn btn-{{ opposite_bar }} btn-xs"><span class="glyphicon glyphicon-off" aria-hidden="true"></span></a>               
+              </div>
+            </td>
+            {%- else -%}
+            <td></td>
+            <td></td>
+            {%- endif -%}            
+          </tr>            
+            {%- for node in vdev["config"] -%}
+            {%- if node["state"] == "ONLINE" -%}
+              {%- set bar = "success" -%}
+              {%- set opposite_state = "offline" -%}
+              {%- set opposite_bar = "danger" -%}
+            {%- elif node["state"] == "DEGRADED" -%}
+              {%- set bar = "warning" -%}
+            {%- elif node["state"] in [ "FAULTED", "REMOVED", "UNAVAIL" ] -%}
+              {%- set bar = "danger" -%}
+            {%- elif node["state"] == "OFFLINE" -%}
+              {%- set bar = "default" -%}
+              {%- set opposite_state = "online" -%}
+              {%- set opposite_bar = "success" -%}
+            {%- endif -%}
+          <tr>
+            <td></td>
+            <td></td>
+            <td>{{ node["name"] }}</td>
+            <td><span class="label label-{{ bar }}">{{ node["state"] }}</span></td>            
+            {%- if not node["config"] -%}
+            <td>
+              <div class="btn-group" role="group">
+                <a href="/device/attachform?target_pool={{ zpool["pool"]}}&attach_target={{ node["name"] }}" class="btn btn-warning btn-xs">Attach</a>
+                <a href="/device/detach?target_pool={{ zpool["pool"]}}&detach={{ node["name"] }}" class="btn btn-danger btn-xs">Detach</a>                
+              </div>
+            </td> 
+            {%- if opposite_state -%}             
+            <td>              
+              <div class="btn-group" role="group">             
+                <a href="/device/state?target_pool={{ zpool["pool"]}}&target_device={{ node["name"]}}&status={{ opposite_state }}" class="btn btn-{{ opposite_bar }} btn-xs"><span class="glyphicon glyphicon-off" aria-hidden="true"></span></a>                
+              </div>
+            </td>
+            {%- else -%}
+            <td></td>
+            {%- endif -%}
+            {%- else -%}
+            <td></td>
+            <td></td>
+            {%- endif -%}            
+          </tr>
+              {%- endfor -%}
+            {%- endfor -%}
+          {%- endfor -%}
+        </tbody>
+      </table>      
+

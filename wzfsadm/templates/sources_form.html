@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{%- block content -%}
+      <div class="row">
+        <form method="GET" action="{{ action }}">
+          <div class="col-md-4">
+            {% block form %}{% endblock %}
+          </div>
+          <div class="col-md-8">
+            <h2><strong>Available resources</strong></h2>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Source</th>
+                  <th>Type</th>                
+                  <th>Size</th>                
+                  <th>Check</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- for source in sources %}
+                <tr>
+                  <th>{{ loop.index }}</th>
+                  {%- set icon = "glyphicon glyphicon-hdd" -%}
+                  {%- if source["type"] == "file" -%}
+                  {%- set icon = "glyphicon glyphicon-file" -%}
+                  {%- endif -%}
+                  <th>{{ source["name"] }}</th>
+                  <th><span class="{{ icon }}" aria-hidden="true"></span> {{ source["type"] }}</th>
+                  <th>{{ source["status"] }}</th>
+                  <th>
+                    <input type="checkbox" value="{{ source["name"]}}" name="device">
+                  </th>
+                </tr>
+                {%- endfor %}
+              </tbody>
+            </table>
+          </div>
+        </form>
+      </div>
+{%- endblock -%}

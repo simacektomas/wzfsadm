@@ -1,0 +1,113 @@
+{%- extends "layout.html" -%}
+{%-block content -%}
+<h2><strong>System information</strong></h2>
+<div class="row">
+  <div id="cpu" class="col-md-4">
+  </div>
+  <div class="col-md-8">
+    <table class="table-condensed">
+      {%- for key in system -%}
+      <tr>
+        <td><strong>{{ key }}:</strong></td>
+        <td>{{ system[key]  }}</td>
+      </tr>
+      {%- endfor -%}
+    </table>
+  </div>
+</div>    
+<div class="row">
+  <div class="col-md-4">
+    {% include 'dashboard_management.html' %}
+  </div>
+  <div class="col-md-8"> 
+    <div class="row">
+      <div class="col-md-12">
+        <h2><strong>Avaliable pools <span class="badge">{{ zpools|length }}</span></strong></h2>
+      </div>
+{%- for zpool in zpools -%}  
+      <div class="col-md-6"> 
+        <div class="panel panel-default">
+          <div class="panel-body pool">
+            <h3><a href="/zpool/detail?pool={{ zpool.pool }}"><strong>{{ zpool.pool }}</strong></a></h3>
+              <table class="table-condensed">
+                <tr><td><strong>Percent used:</strong></td>
+                    
+                      {%- set bar = "success" -%}
+                      {%- if zpool["capacity"]|int > 60 -%}
+                        {%- set bar = "warning" -%} 
+                      {%- elif zpool["capacity"]|int > 90 -%}
+                        {%- set bar = "danger" -%}
+                      {%- elif zpool["capacity"] == "-" -%}
+                        {%- set bar = "default" -%}
+                      {%- endif -%}
+       	            <td><span class="label label-{{ bar }}">{{ zpool["capacity"] }}%</span></td></tr>
+                <tr><td><strong>Capacity:</strong></td><td>{{ zpool["size"] }}</td></tr>
+                <tr><td><strong>Free:</strong></td><td>{{ zpool["free"] }}</td></tr>
+                <tr><td><strong>Allocated:</strong></td><td>{{ zpool["allocated"] }}</td></tr>
+                <tr><td><strong>Health:</strong></td><td>
+                      {%- if zpool["health"] == "ONLINE" -%}
+                      <span class="label label-success">
+                      {%- elif zpool["health"] == "DEGRADED" -%}
+                      <span class="label label-warning">
+                      {%- elif zpool["health"] in [ "FAULTED", "REMOVED", "UNAVAIL" ] -%}
+                      <span class="label label-danger">
+                      {%- elif zpool["health"] == "OFFLINE" -%}
+                      <span class="label label-default">
+                      {%- endif -%}
+                      {{ zpool["health"] }}</span></td></tr>
+              </table>            
+          </div>
+        </div>     
+      </div>
+{%- endfor -%}
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        {% include 'dashboard_datasets.html' %}
+        <h2><strong>History</strong></h2>
+        <pre id="dashistory">{{ history }}</pre>
+      </div>
+    </div>
+  </div> 
+</div>
+<script type="text/javascript">	
+      google.charts.load('current', {'packages':['gauge', 'bar']});
+      google.charts.setOnLoadCallback( drawChart);
+      function drawChart() {
+
+        var dataTable = google.visualization.arrayToDataTable([          
+		['Label', 'Value'],          
+		[ 'CPU', 0 ]
+        ]);
+
+        var options = {
+		width: 400, height: 120,
+		redFrom: 90, redTo: 100,
+		yellowFrom:75, yellowTo: 90,
+		minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('cpu'));
+
+        chart.draw( dataTable, options );
+	var interval = 1000;  // 1000 = 1 second, 3000 = 3 seconds
+	function doAjax() {
+		$.ajax({
+			type: 'GET',
+			url: '/dashboard/cpu',
+			data: $(this).serialize(),
+			dataType: 'json',
+			success: function (jsonData) {	
+				dataTable.setValue( 0, 1, jsonData["cpu"][1] );
+				chart.draw( dataTable, options );
+			},
+			complete: function (data) {
+			// Schedule the next
+				setTimeout(doAjax, interval);
+			}
+		});
+	}
+	setTimeout(doAjax, interval);		               
+      }	                   
+</script>
+{%- endblock -%}

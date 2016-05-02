@@ -1,0 +1,353 @@
+<h2><strong>Status</strong></h2>
+<table class="table table-striped">
+  <thead>
+    <tr><td><strong>Property</strong></td><td><strong>Value</strong></td><td><strong>Edit</strong></td></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Mounted:</strong></td>
+      {%- if "mounted" not in dataset or dataset["mounted"] != "yes" -%}
+      <td><span class="label label-default">no</span></td>
+      {%- else -%}
+      <td><span class="label label-success">{{ dataset["mounted"] }}</span></td>
+      {%- endif -%}
+      <td></td>
+    </tr> 
+    <tr>
+      <td><strong>Mountable</strong></td>
+      {%- set bar = "default" -%}
+      {%- if dataset["canmount"] == "on" -%}
+      {%- set bar = "primary" -%}
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["canmount"] }}</span></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>Mountpoint</strong></td>
+      <td><code>{{ dataset["mountpoint"] }}</code></td>
+      <td><a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#mounpoint_status">Edit</a></td>
+    </tr>   
+    <tr>
+      <td><strong>Compression</strong></td>
+      {%- set bar = "default" -%}
+      {%- if dataset["compression"] in [ "lzjb", "gzip", "zle", "lz4" ] -%}
+      {%- set bar = "warning" -%}
+      {%- elif dataset["compression"] == "on" -%}
+      {%- set bar = "primary" -%}
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["compression"] }}</span></td>
+      <td><a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#compression_status">Edit</a></td>
+    </tr>
+    <tr>
+      <td><strong>Compress ratio</strong></td>
+      <td>{{ dataset["compressratio"] }}</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>Deduplication</strong></td>
+      {%- set bar = "default" -%}
+      {%- if dataset["dedup"] in [ "verify", "sha256" ] -%}
+      {%- set bar = "warning" -%}
+      {%- elif dataset["dedup"] == "on" -%}
+      {%- set bar = "primary" -%}
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["dedup"] }}</span></td>
+      <td><a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#dedup_status">Edit</a></td>
+    </tr>
+    <tr>
+      <td><strong>Encryption</strong></td>
+      {%- set bar = "warning" -%}
+      {%- if dataset["encryption"] == "off" -%}
+      {%- set bar = "default" -%}
+      {%- elif dataset["encryption"] == "on" -%}
+      {%- set bar = "primary" -%}
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["encryption"] }}</span></td>
+      <td><a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#encryption_status">Edit</a></td>
+    </tr>
+    <tr>
+      <td><strong>Execution</strong></td>
+      {%- set bar = "default" -%}
+      {%- if dataset["exec"] == "on" -%}
+      {%- set bar = "primary" -%}
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["exec"] }}</span></td>
+      <td><a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#exec_status">Edit</a></td>
+    </tr>
+    <tr>
+      <td><strong>SetUID</strong></td>
+      {%- set bar = "default" -%}
+      {%- if dataset["setuid"] == "on" -%}
+      {%- set bar = "primary" -%}
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["setuid"] }}</span></td>
+      <td><a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#setuid_status">Edit</a></td>
+    </tr>
+    <tr>
+      <td><strong>Readonly</strong></td>
+      {%- set bar = "default" -%}
+      {%- if dataset["readonly"] == "on" -%}
+      {%- set bar = "primary" -%}
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["readonly"] }}</span></td>
+      <td><a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#readonly_status">Edit</a></td>
+    </tr>
+    <tr>
+      <td><strong>Snapshot .zfs directory</strong></td>
+      {%- set bar = "danger" -%}
+      {%- if dataset["snapdir"] == "visible" -%}
+      {%- set bar = "success" -%}
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["snapdir"] }}</span></td>
+      <td><a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#snapdir_status">Edit</a></td>
+    </tr>
+  </tbody>
+</table>
+<!-- Modal for mountpoint -->
+<div id="mounpoint_status" class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog">
+    <form method="GET" action="/dataset/setproperty" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Set mounpoint for {{ dataset["name"] }}</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Set mountpoint to:</label>
+            <input type="text" class="form-control" value="{{ dataset["name"] }}" name="dataset" readonly="readonly">
+          </div>          
+          <div class="from-group">  
+            <label>Mountpoint:</label>
+            <input type="text" class="form-control" name="value" >          
+          </div>                      
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="property" value="mountpoint">Set mountpoint</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Modal for compression -->
+<div id="compression_status" class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog">
+    <form method="GET" action="/dataset/setproperty" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Set compression for {{ dataset["name"] }}</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Set compression to:</label>
+            <input type="text" class="form-control" value="{{ dataset["name"] }}" name="dataset" readonly="readonly">
+          </div>          
+          <div class="from-group">  
+            <label>Compression:</label>
+              <select class="form-control" name="value">
+                <option value="on">On</option>
+                <option value="off">Off</option>
+                <option value="lzjb">lzjb</option>
+                <option value="zle">zle</option>
+                <option value="lz4">lz4</option>
+               </select>       
+          </div>                      
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="property" value="compression">Set compression</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Modal for deduplication -->
+<div id="dedup_status" class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog">
+    <form method="GET" action="/dataset/setproperty" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Set deduplication for {{ dataset["name"] }}</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Set deduplication to:</label>
+            <input type="text" class="form-control" value="{{ dataset["name"] }}" name="dataset" readonly="readonly">
+          </div>          
+          <div class="from-group">  
+            <label>Deduplication:</label>
+              <select class="form-control" name="value">
+                <option value="on">On</option>
+                <option value="off">Off</option>
+                <option value="verify">Verify</option>
+                <option value="sha256">sha256</option>
+               </select>       
+          </div>                      
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="property" value="dedup">Set deduplication</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Modal for encryption -->
+<div id="encryption_status" class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog">
+    <form method="GET" action="/dataset/setproperty" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Set encryption for {{ dataset["name"] }}</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Set encryption to:</label>
+            <input type="text" class="form-control" value="{{ dataset["name"] }}" name="dataset" readonly="readonly">
+          </div>          
+          <div class="from-group">  
+            <label>Encryption:</label>
+              <select class="form-control" name="value">
+                <option value="on">On</option>
+                <option value="off">Off</option>
+                <option value="aes-128-ccm">aes-128-ccm</option>
+                <option value="aes-192-ccm">aes-192-ccm</option>
+                <option value="aes-256-ccm">aes-256-ccm</option>
+                <option value="aes-128-gcm">aes-128-gcm</option>
+                <option value="aes-192-gcm">aes-192-gcm</option>
+                <option value="aes-256-gcm">aes-256-gcm</option>
+               </select>       
+          </div>                      
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="property" value="encryption">Set encryption</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Modal for exec -->
+<div id="exec_status" class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog">
+    <form method="GET" action="/dataset/setproperty" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Set exec for {{ dataset["name"] }}</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Set exec to:</label>
+            <input type="text" class="form-control" value="{{ dataset["name"] }}" name="dataset" readonly="readonly">
+          </div>          
+          <div class="from-group">  
+            <label>Exec property:</label>
+              <select class="form-control" name="value">
+                <option value="on">On</option>
+                <option value="off">Off</option>
+               </select>       
+          </div>                      
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="property" value="exec">Set exec</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Modal for setuid -->
+<div id="setuid_status" class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog">
+    <form method="GET" action="/dataset/setproperty" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Set setuid for {{ dataset["name"] }}</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Set setuid to:</label>
+            <input type="text" class="form-control" value="{{ dataset["name"] }}" name="dataset" readonly="readonly">
+          </div>          
+          <div class="from-group">  
+            <label>Setuid property:</label>
+              <select class="form-control" name="value">
+                <option value="on">On</option>
+                <option value="off">Off</option>
+               </select>       
+          </div>                      
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="property" value="setuid">Set setuid</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Modal for readonly -->
+<div id="readonly_status" class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog">
+    <form method="GET" action="/dataset/setproperty" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Set readonly for {{ dataset["name"] }}</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Set readonly to:</label>
+            <input type="text" class="form-control" value="{{ dataset["name"] }}" name="dataset" readonly="readonly">
+          </div>          
+          <div class="from-group">  
+            <label>Readonly property:</label>
+              <select class="form-control" name="value">
+                <option value="on">On</option>
+                <option value="off">Off</option>
+               </select>       
+          </div>                      
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="property" value="readonly">Set readonly</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Modal for snapdir -->
+<div id="snapdir_status" class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog">
+    <form method="GET" action="/dataset/setproperty" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Set snapshot directory for {{ dataset["name"] }}</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Set snapshot directory to:</label>
+            <input type="text" class="form-control" value="{{ dataset["name"] }}" name="dataset" readonly="readonly">
+          </div>          
+          <div class="from-group">  
+            <label>Snapshot directory:</label>
+              <select class="form-control" name="value">
+                <option value="hidden">Hidden</option>
+                <option value="visible">Visible</option>
+               </select>       
+          </div>                      
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="property" value="snapdir">Set snapshot directory</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

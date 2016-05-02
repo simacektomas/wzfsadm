@@ -1,0 +1,40 @@
+{%- extends "sources_form.html" -%}
+{%- block form -%}			
+              <h2><strong>Create Form</strong></h2>
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <h4><strong>Pool Name</strong></h4>
+                  <div class="row">
+                    <div class="col-md-12">              			              
+                      <input type="text" class="form-control" id="name_to_create" placeholder="Pool" name="name">			             
+                    </div>
+                  </div>
+                  <h4><strong>Device Type</strong></h4>
+                  <div class="row">
+                    <div class="col-md-12">              			              
+                      <select name="type" class="form-control" id="Type">
+                        <option value="none">None</option>
+                        <option value="mirror">Mirror</option>
+                        <option value="raidz">Raidz</option>
+                        <option value="raidz1">Raidz1</option>
+                        <option value="raidz2">Raidz2</option>
+                        <option value="raidz3">Raidz3</option>
+                      </select>
+                    </div>
+                  </div>     
+                  <h4><strong>Create zpool</strong></h4>       
+                  <div class="row">
+                    <div class="col-md-8"> 
+                      <button type="submit" class="btn btn-primary" >Create</button>                       			              
+                    </div>                    
+                    <div class="col-md-4">
+                      <div class="checkbox">
+                        <label>
+                          <input name="forced" value="true" type="checkbox"> Forced
+                        </label>
+                      </div>         
+                    </div>
+                  </div>                    
+                </li>        
+              </ul>			        			
+{%- endblock -%} 

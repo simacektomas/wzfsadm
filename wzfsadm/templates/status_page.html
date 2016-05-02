@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-md-4">
+    <h2><strong>Navigation</strong></h2>
+    <ul class="list-group">
+      <li class="list-group-item">
+        <h4><strong>Action</strong></h4>
+        <div class="row">
+          <div class="col-md-8">
+            <p>Here you can chose your next steps.</p>
+          </div>
+          <div class="col-md-4">                                  
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Action <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              {% for action in actions %}
+              <li><a href="{{ action["link"] }}">{{ action["name"] }}</a></li>
+              {% endfor %}
+            </ul>          
+          </div>
+        </div>
+      </li>      
+    </ul>
+  </div>  
+  <div class="col-md-8">
+  <h2><strong>Action status</strong></h2>
+    {%- set type = "danger" -%}
+    {%- if status != "ERROR"-%}
+      {%- set type = "success" -%}
+    {%- endif -%}
+    <div id="alert" class="alert alert-{{ type }}" role="alert"><strong>{{ status }}!</strong> {{ response }}</div>
+  </div>
+</div>
+{% endblock %}

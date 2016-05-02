@@ -1,0 +1,23 @@
+{%- extends "layout.html" -%}
+{%- block content -%}
+<h2><strong>Dataset navigation</strong></h2>
+<ol class="breadcrumb">
+  {%- for nav in bread -%}
+  <li><a href="{{ nav["link"] }}">{{ nav["name"] }}</a></li>
+  {%- endfor -%}
+  <li class="active">{{ active["name"] }}</li>
+</ol>
+<div class="row">
+  <div class="col-md-4">
+  {% include 'dataset_management.html' %}
+  {% include 'dataset_properties_storage.html' %}
+  {% include 'dataset_properties_quotas.html' %}
+  </div>
+  <div class="col-md-8">
+  {% include 'dataset_children.html' %}
+  {% include 'dataset_snapshots.html' %}
+  {% include 'dataset_properties_status.html' %}
+  {% include 'dataset_properties_general.html' %}
+  </div>
+</div>
+{%- endblock -%}

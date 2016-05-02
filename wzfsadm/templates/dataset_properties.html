@@ -1,0 +1,15 @@
+<h2><strong>Properties</strong></h2>
+<table class="table table-striped">
+  <thead>
+    <tr><th><strong>Property</strong></th><th>Value</th><th>Edit</th></tr>
+  </thead>
+  <tbody>
+    {% for property in dataset %}
+    <tr>
+      <th>{{ property }}</th>
+      <th>{{ dataset[property] }}</th>
+      <th></th>  
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

@@ -1,0 +1,80 @@
+<h2><strong>Properties</strong></h2>
+<table class="table table-striped">
+  <thead>
+    <tr><td><strong>Property</strong></td><td><strong>Value</strong></td></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>ACL inheritation:</strong></td>
+      {%- set bar = "success" -%}
+      {%- if dataset["aclinherit"] in [ "discard", "nonallow" ] -%}
+      {%- set bar = "danger" -%}
+      {%- elif dataset["aclinherit"] ==  "restricted" -%}
+      {%- set bar = "warning" -%}
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["aclinherit"] }}</span></td>
+    </tr>
+    <tr>
+      <td><strong>Case sensitivity:</strong></td>
+      {%- set bar = "success" -%}
+      {%- if dataset["casesensitivity"] == "insensitive" -%}
+      {%- set bar = "danger" -%}
+      {%- elif dataset["casesensitivity"] ==  "mixed" -%}
+      {%- set bar = "warning" -%}
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["casesensitivity"] }}</span></td>
+    </tr>
+    <tr>
+      <td><strong>Checksum:</strong></td>
+      {%- set bar = "primary" -%}
+      {%- if dataset["checksum"] == "off" -%}
+      {%- set bar = "default" -%}     
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["checksum"] }}</span></td>
+    </tr>
+    <tr>
+      <td><strong>Copies:</strong></td>
+      <td><span class="badge">{{ dataset["copies"] }}</span></td>
+    </tr>
+    <tr>
+      <td><strong>Devices:</strong></td>
+      {%- set bar = "primary" -%}
+      {%- if dataset["devices"] == "off" -%}
+      {%- set bar = "default" -%}     
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["devices"] }}</span></td>
+    </tr>
+    <tr>
+      <td><strong>Primary caching:</strong></td>
+      {%- set bar = "success" -%}
+      {%- if dataset["primarycache"] == "metadata" -%}
+      {%- set bar = "warning" -%}   
+      {%- elif dataset["primarycache"] ==  "none" -%}
+      {%- set bar = "default" -%}  
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["primarycache"] }}</span></td>
+    </tr>
+    <tr>
+      <td><strong>Restrict chown:</strong></td>
+      {%- set bar = "primary" -%}
+      {%- if dataset["rstchown"] == "off" -%}
+      {%- set bar = "default" -%}     
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["rstchown"] }}</span></td>
+    </tr>
+    <tr>
+      <td><strong>Secondary caching:</strong></td>
+      {%- set bar = "success" -%}
+      {%- if dataset["secondarycache"] == "metadata" -%}
+      {%- set bar = "warning" -%}   
+      {%- elif dataset["secondarycache"] ==  "none" -%}
+      {%- set bar = "default" -%}  
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["secondarycache"] }}</span></td>
+    </tr>    
+    <tr>
+      <td><strong>Suggested block size:</strong></td>
+      <td>{{ dataset["recordsize"] }}</td>
+    </tr>  
+  </tbody>
+</table>

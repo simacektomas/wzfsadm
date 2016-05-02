@@ -1,0 +1,298 @@
+<h2><strong>Quotas</strong></h2>
+<table class="table table-striped">
+  <thead>
+    <tr><td><strong>Property</strong></td><td>Value</td><td>Edit</td></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Quota:<strong></td>
+      {%- set bar = "default" -%}
+      {%- if dataset["quota"] != "none" -%}
+      {%- set bar = "primary" -%}
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["quota"] }}</span></td>
+      <td><a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#quota">Edit</a></td>
+    </tr>
+    <tr>
+      <td><strong>Default User quota:</strong></td>
+      {%- set bar = "default" -%}
+      {%- if dataset["defaultuserquota"] != "none" -%}
+      {%- set bar = "primary" -%}
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["defaultuserquota"] }}</span></td>
+      <td><a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#defuserquota">Edit</a></td>
+    </tr>
+    <tr>
+      <td><strong>Default Group quota:</strong></td>
+      {%- set bar = "default" -%}
+      {%- if dataset["defaultgroupquota"] != "none" -%}
+      {%- set bar = "primary" -%}
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["defaultgroupquota"] }}</span></td>
+      <td><a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#defgroupquota">Edit</a></td>
+    </tr>
+    <tr>
+      <td><strong>Reservation:</strong></td>
+      {%- set bar = "default" -%}
+      {%- if dataset["reservation"] != "none" -%}
+      {%- set bar = "primary" -%}
+      {%- endif -%}
+      <td><span class="label label-{{ bar }}">{{ dataset["reservation"] }}</span></td>
+      <td><a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#reservation">Edit</a></td>
+    </tr>
+  </tbody>
+</table>
+<!-- Modal for quota -->
+<div id="quota" class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog modal-sm">
+    <form method="GET" action="/dataset/setproperty" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Set quota for dataset</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Add quota to:</label>
+            <input type="text" class="form-control" value="{{ dataset["name"] }}" name="dataset" readonly="readonly">
+          </div>          
+          <div class="from-group">  
+            <label>Quota:</label>
+            <input type="text" class="form-control" name="value" >          
+          </div> 
+          <div class="from-group">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="recursively" value="true"> Set quota recursively
+              </label>
+            </div>
+          </div>               
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="property" value="quota">Set quota</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Modal for defuserquota -->
+<div id="defuserquota" class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog">
+    <form method="GET" action="/dataset/setproperty" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Set default user quota for dataset</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Add quota to:</label>
+            <input type="text" class="form-control" value="{{ dataset["name"] }}" name="dataset" readonly="readonly">
+          </div>          
+          <div class="from-group">  
+            <label>Quota:</label>
+            <input type="text" class="form-control" name="value" >          
+          </div> 
+          <div class="from-group">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="recursively" value="true"> Set quota recursively
+              </label>
+            </div>
+          </div>               
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="property" value="defaultuserquota">Set quota</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Modal for defgrouquota -->
+<div id="defuserquota" class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog">
+    <form method="GET" action="/dataset/setproperty" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Set default user quota for dataset {{ dataset["name"] }}</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Add quota to:</label>
+            <input type="text" class="form-control" value="{{ dataset["name"] }}" name="dataset" readonly="readonly">
+          </div>          
+          <div class="from-group">  
+            <label>Quota:</label>
+            <input type="text" class="form-control" name="value" >          
+          </div> 
+          <div class="from-group">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="recursively" value="true"> Set quota recursively
+              </label>
+            </div>
+          </div>               
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="property" value="defaultuserquota">Set quota</button>
+        </div>
+      </div>
+    </form>
+  </div>
+<!-- Modal for reservation -->
+</div><div id="reservation" class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog">
+    <form method="GET" action="/dataset/setproperty" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Set reservation for dataset {{ dataset["name"] }}</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Add reservation to:</label>
+            <input type="text" class="form-control" value="{{ dataset["name"] }}" name="dataset" readonly="readonly">
+          </div>          
+          <div class="from-group">  
+            <label>Reservation:</label>
+            <input type="text" class="form-control" name="value" >          
+          </div> 
+          <div class="from-group">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="recursively" value="true"> Set quota recursively
+              </label>
+            </div>
+          </div>               
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="property" value="reservation">Set quota</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- ----------------------------------------------------------------------------------------- -->
+<h2><strong>User quotas</strong> <span class="badge">{{ dataset["userspace"]|length }}</span></h2>
+<table class="table table-striped">
+  <thead>
+    <tr><td><strong>User</strong></td><td><strong>Used</strong></th><td><strong>Quota</strong></td></tr>
+  </thead>
+  <tbody>
+  {%- for user in dataset["userspace"] -%}
+    <tr>
+      <td><strong>{{ user["name"] }}</strong></td>
+      <td>{{ user["used"] }}</td>
+      {%- set bar = "default" -%}
+      {%- if user["quota"] != "none" -%}
+      {%- set bar = "primary" -%}
+      {%- endif -%}
+      <th><span class="label label-{{ bar }}">{{ user["quota"] }}</span></th>
+    </tr>   
+  {%- endfor -%} 
+  </tbody>
+</table>
+<button type="button" data-toggle="modal" data-target="#userquota" class="btn btn-primary">Set user quota</button>   
+<!-- Modal for userquota -->
+<div id="userquota" class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog modal-sm">
+    <form method="GET" action="/dataset/quota" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Set user quota</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Add quota to:</label>
+            <input type="text" class="form-control" value="{{ dataset["name"] }}" name="dataset" readonly="readonly">
+          </div>
+          <div class="form-group">
+            <label>User:</label>
+            <input type="text" class="form-control" name="name" >
+          </div>
+          <div class="from-group">  
+            <label>Quota:</label>
+            <input type="text" class="form-control" name="quota" >          
+          </div> 
+          <div class="from-group">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="recursively" value="true"> Set quota recursively
+              </label>
+            </div>
+          </div>               
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="type" value="user" >Set user quota</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- ----------------------------------------------------------------------------------------- -->
+<h2><strong>Group quotas</strong> <span class="badge">{{ dataset["groupspace"]|length }}</span></h2>
+<table class="table table-striped">
+  <thead>
+    <tr><td><strong>Group</strong></td><td><strong>Used</strong></td><td><strong>Quota</strong></td></tr>
+  </thead>
+  <tbody>
+  {%- for group in dataset["groupspace"] -%}
+    <tr>
+      <td><strong>{{ group["name"] }}</strong></td>
+      <td>{{ group["used"] }}</td>
+      {%- set bar = "default" -%}
+      {%- if group["quota"] != "none" -%}
+      {%- set bar = "primary" -%}
+      {%- endif -%}
+      <th><span class="label label-{{ bar }}">{{ group["quota"] }}</span></th>    
+    </tr>   
+  {%- endfor -%} 
+  </tbody>
+</table>
+<button type="button" data-toggle="modal" data-target="#groupquota" class="btn btn-primary">Set group quota</button>   
+<!-- Modal for groupquota -->
+<div id="groupquota" class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog modal-sm">
+    <form method="GET" action="/dataset/quota" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Set group quota</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Add quota to:</label>
+            <input type="text" class="form-control" value="{{ dataset["name"] }}" name="dataset" readonly="readonly">
+          </div>
+          <div class="form-group">
+            <label>Group:</label>
+            <input type="text" class="form-control" name="name" >
+          </div>
+          <div class="from-group">  
+            <label>Quota:</label>
+            <input type="text" class="form-control" name="quota" >          
+          </div>                     
+          <div class="from-group">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="recursively" value="true"> Set quota recursively
+              </label>
+            </div>
+          </div>      
+        </div>       
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="type" value="group" >Set group quota</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- ----------------------------------------------------------------------------------------- -->

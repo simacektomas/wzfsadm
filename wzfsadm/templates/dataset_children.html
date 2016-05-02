@@ -1,0 +1,25 @@
+{%- if dataset["children"] -%}
+<h2><strong>Child datasets <span class="badge">{{ dataset["children"]|length }}</span></strong></h2>
+<table class="table">
+  <thead>
+    <tr>
+      <td><strong>Dataset</strong></td>
+      <td><strong>Used</strong></td>
+      <td><strong>Available</strong></td>  
+      <td><strong>Referenced</strong></td>  
+      <td><strong>Mountpoint</strong></td>  
+    </tr>
+  </thead>
+  <tbody>
+    {% for child in dataset["children"] %}
+    <tr>
+      <td><a href="/dataset/detail?dataset={{ child["name"] }}"><strong>{{ child["name"] }}</strong></a></td>
+      <td>{{ child["used"] }}</td>
+      <td>{{ child["available"] }}</td>  
+      <td>{{ child["referenced"] }}</td>
+      <td><code>{{ child["mountpoint"] }}</code></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{%- endif -%}

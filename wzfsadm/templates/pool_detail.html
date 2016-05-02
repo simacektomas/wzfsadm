@@ -1,0 +1,18 @@
+{%- extends "layout.html" -%}
+{%- block content -%}
+<div class="row">  
+  <div class="col-md-4"> 
+    {% include 'zpool_detail_management.html' %}
+    {% include 'zpool_detail_storage.html' %}    
+  </div>
+  <div class="col-md-8">           
+    {% include 'dataset_children.html' %}
+    {% include 'zpool_detail_properties.html' %}    
+    <h2><strong>History</strong></h2>
+    <pre id="history">{{ history }}</pre>    
+  </div>
+  <div class="col-md-12">
+    {% include 'zpool_detail_configuration.html' %}      
+  </div>
+</div>   
+{%- endblock -%}

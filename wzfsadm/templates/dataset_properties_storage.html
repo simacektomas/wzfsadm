@@ -1,0 +1,40 @@
+<h2><strong>Storage</strong></h2>
+<table class="table table-striped">
+  <thead>
+    <tr><td><strong>Property</strong></td><td><strong>Value</strong></td></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Type</strong></td>
+      <td>{{ dataset["type"] }}</td>
+    </tr> 
+    <tr>
+      <td><strong>Created</strong></td>
+      <td>{{ dataset["creation"] }}</td>
+    </tr>   
+    <tr>
+      <td><strong>Available</strong></td>
+      <td>{{ dataset["available"] }}</td>
+    </tr>
+    <tr>
+      <td><strong>Referenced</strong></td>
+      <td>{{ dataset["referenced"] }}</td>
+    </tr>
+    <tr>
+      <td><strong>Used</strong></td>
+      <td>{{ dataset["used"] }}</td>
+    </tr>
+    <tr>
+      <td><strong>Used by children</strong></td>
+      <td>{{ dataset["usedbychildren"] }}</td>
+    </tr>
+    <tr>
+      <td><strong>Used by dataset</strong></td>
+      <td>{{ dataset["usedbydataset"] }}</td>
+    </tr>
+    <tr>
+      <td><strong>Used by snapshots</strong></td>
+      <td>{{ dataset["usedbysnapshots"] }}</td>
+    </tr>
+  </tbody>
+</table>

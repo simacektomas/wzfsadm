@@ -1,0 +1,299 @@
+    <h2><strong>Properties</strong></h2>
+    <table class="table table-striped" id="properties">
+      <thead>
+        <tr><td><strong>Property</strong></td><td><strong>Value</strong></td><td><strong>Edit</strong></td></tr>
+      </thead>
+      <tbody>
+        {%- if "action" in zpool -%}
+        <tr>
+          <td><strong>Action:</strong></td>
+          <td>{{ zpool["action"] }}</td>
+          <td></td>
+        </tr>
+        {%- endif -%}
+        <tr>
+          <td><strong>Alt Root:</strong></td>
+          <td><code>{{ zpool["altroot"] }}</code></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Auto Expand:</strong></td>
+          {%- if zpool["autoexpand"] == "off" or zpool["autoexpand"] == "-"  -%}
+            {%- set status = "default" -%}
+          {%- else -%}
+            {%- set status = "primary" -%}
+          {%- endif -%}
+          <td><span class="label label-{{ status }}">{{ zpool["autoexpand"] }}</span></td>
+          <td>
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#autoexpand">Edit</button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Auto Replace:</strong></td>
+          {%- if zpool["autoreplace"] == "off" or zpool["autoreplace"] == "-" -%}
+            {%- set status = "default" -%}
+          {%- else -%}
+            {%- set status = "primary" -%}
+          {%- endif -%}
+          <td><span class="label label-{{ status }}">{{ zpool["autoreplace"] }}</span></td>
+          <td>
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#autoreplace">Edit</button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Boot FS:</strong></td>
+          <td><code>{{ zpool["bootfs"] }}</code></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Cache File:</strong></td>
+          <td><code>{{ zpool["cachefile"] }}</code></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Deduplicaton Ratio:</strong></td>
+          <td>{{ zpool["dedupratio"] }}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Delegation:</strong></td>
+          {%- if zpool["delegation"] == "off" or zpool["delegation"] == "-" -%}
+            {%- set status = "default" -%}
+          {%- else -%}
+            {%- set status = "primary" -%}
+          {%- endif -%}
+          <td><span class="label label-{{ status }}">{{ zpool["delegation"] }}</span></td>
+          <td>
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#delegation">Edit</button>
+          </td>
+        </tr>
+        {%- if "errors" in zpool -%}
+        <tr>
+          <td><strong>Errors:</strong></td>
+          <td>{{ zpool["errors"] }}</td>
+          <td></td>
+        </tr>
+        {%- endif -%}
+        <tr>
+          <td><strong>Fail Mode:</strong></td>
+          <td>{{ zpool["failmode"] }}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>GUID:</strong></td>
+          <td>{{ zpool["guid"] }}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>List Shares:</strong></td>
+          {%- if zpool["listshares"] == "off" or zpool["listshares"] == "-" -%}
+            {%- set status = "default" -%}
+          {%- else -%}
+            {%- set status = "primary" -%}
+          {%- endif -%}
+          <td><span class="label label-{{ status }}">{{ zpool["listshares"] }}</span></td>
+          <td>
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#listshares">Edit</button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>List Snapshots:</strong></td>
+          {%- if zpool["listsnapshots"] == "off" or zpool["listsnapshots"] == "-" -%}
+            {%- set status = "default" -%}
+          {%- else -%}
+            {%- set status = "primary" -%}
+          {%- endif -%}
+          <td><span class="label label-{{ status }}">{{ zpool["listsnapshots"] }}</span></td>
+          <td>
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#listsnapshots">Edit</button>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Readonly:</strong></td>
+          {%- if zpool["readonly"] == "off" or zpool["readonly"] == "-" -%}
+            {%- set status = "default" -%}
+          {%- else -%}
+            {%- set status = "primary" -%}
+          {%- endif -%}
+          <td><span class="label label-{{ status }}">{{ zpool["readonly"] }}</span></td>
+          <td></td>
+        </tr>
+        {%- if "scan" in zpool -%}
+        <tr>
+          <td><strong>Scan:</strong></td>
+          <td>{{ zpool["scan"] }}</td>
+          <td></td>
+        </tr>
+        {%- endif -%}
+        {%- if "status" in zpool -%}
+        <tr>
+          <td><strong>Status:</strong></td>
+          <td>{{ zpool["status"] }}</td>
+          <td></td>
+        </tr>
+        {%- endif -%}
+        <tr>
+          <td><strong>Version:</strong></td>
+          <td>{{ zpool["version"] }}</td>
+          <td></td>
+        </tr>        
+       {# {%- for key in zpool|dictsort -%}
+        <tr>
+          <td><strong>{{ key }}</strong></td>
+          <td>{{ zpool[ key ] }}</td>          
+        </tr>
+        {%- endfor -%} #}      
+      </tbody>
+    </table>  
+    <div id="autoexpand" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+      <div class="modal-dialog modal-sm">
+        <form method="GET" action="/zpool/setproperty" >
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Changing property <strong>autoexpand</strong></h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Pool</label>
+                <input type="text" class="form-control" value="{{ zpool["pool"] }}" name="target_pool" readonly="readonly">
+              </div>
+              <div class="from-group">
+                <label>Value</label>
+                <select class="form-control" name="value">
+                  <option value="on">ON</option>
+                  <option value="off">OFF</option>
+                </select>
+                <p class="help-block">Help</p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" name="property" value="autoexpand">Save changes</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div id="autoreplace" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+      <div class="modal-dialog modal-sm">
+        <form method="GET" action="/zpool/setproperty" >
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Changing property <strong>autoreplace</strong></h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Pool</label>
+                <input type="text" class="form-control" value="{{ zpool["pool"] }}" name="target_pool" readonly="readonly">
+              </div>
+              <div class="from-group">
+                <label for="">Value</label>
+                <select class="form-control" name="value">
+                  <option value="on">ON</option>
+                  <option value="off">OFF</option>
+                </select>
+                <p class="help-block">Help</p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" name="property" value="autoreplace">Save changes</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div id="delegation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+      <div class="modal-dialog modal-sm">
+        <form method="GET" action="/zpool/setproperty" >
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Changing property <strong>delegation</strong></h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Pool</label>
+                <input type="text" class="form-control" value="{{ zpool["pool"] }}" name="target_pool" readonly="readonly">
+              </div>
+              <div class="from-group">
+                <label for="">Value</label>
+                <select class="form-control" name="value">
+                  <option value="on">ON</option>
+                  <option value="off">OFF</option>
+                </select>
+                <p class="help-block">Help</p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" name="property" value="delegation">Save changes</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div id="listshares" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+     <div class="modal-dialog modal-sm">
+        <form method="GET" action="/zpool/setproperty" >
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Changing property <strong>listshares</strong></h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Pool</label>
+                <input type="text" class="form-control" value="{{ zpool["pool"] }}" name="target_pool" readonly="readonly">
+              </div>
+              <div class="from-group">
+                <label for="">Value</label>
+                <select class="form-control" name="value">
+                  <option value="on">ON</option>
+                  <option value="off">OFF</option>
+                </select>
+                <p class="help-block">Help</p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" name="property" value="listshares">Save changes</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div id="listsnapshots" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+      <div class="modal-dialog modal-sm">
+        <form method="GET" action="/zpool/setproperty" >
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Changing property <strong>listsnapshots</strong></h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Pool</label>
+                <input type="text" class="form-control" value="{{ zpool["pool"] }}" name="target_pool" readonly="readonly">
+              </div>
+              <div class="from-group">
+                <label for="">Value</label>
+                <select class="form-control" name="value">
+                  <option value="on">ON</option>
+                  <option value="off">OFF</option>
+                </select>
+                <p class="help-block">Help</p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" name="property" value="listsnapshots">Save changes</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+

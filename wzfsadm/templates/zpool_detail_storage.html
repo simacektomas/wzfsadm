@@ -1,0 +1,32 @@
+    <h2><strong>Storage</strong></h2>
+    <table class="table table-striped" id="storage">
+      <thead>
+        <tr><th><strong>Property</strong></th><th><strong>Value</strong></th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Percent used:</strong></td>   
+            {%- set bar = "success" -%}
+            {%- if zpool["capacity"]|int > 60 -%}
+              {%- set bar = "warning" -%} 
+            {%- elif zpool["capacity"]|int > 90 -%}
+              {%- set bar = "danger" -%}
+            {%- elif zpool["capacity"] == "-" -%}
+              {%- set bar = "default" -%}
+            {%- endif -%}
+            <td><span class="label label-{{ bar }}">{{ zpool["capacity"] }}%</span></td></tr>
+        <tr><td><strong>Capacity:</strong></td><td>{{ zpool["size"] }}</td></tr>
+        <tr><td><strong>Free:</strong></td><td>{{ zpool["free"] }}</td></tr>
+        <tr><td><strong>Allocated:</strong></td><td>{{ zpool["allocated"] }}</td></tr>
+        <tr><td><strong>Health:</strong></td><td>
+            {%- if zpool["health"] == "ONLINE" -%}
+              {%- set bar = "success" -%}
+            {%- elif zpool["health"] == "DEGRADED" -%}
+              {%- set bar = "warning" -%}
+            {%- elif zpool["health"] in [ "FAULTED", "REMOVED", "UNAVAIL" ] -%}
+              {%- set bar = "danger" -%}
+            {%- elif zpool["health"] == "OFFLINE" -%}
+              {%- set bar = "default" -%}
+            {%- endif -%}
+            <span class="label label-{{ bar }}">{{ zpool["health"] }}</span></td></tr>
+      </tbody>
+    </table>

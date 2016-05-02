@@ -1,0 +1,70 @@
+{%- extends "sources_form.html" -%}
+{%- block content -%}
+<div class="row">
+        <form method="GET" action="{{ action }}">
+          <div class="col-md-4">
+            <h2><strong>Attach Form</strong></h2>
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <h4><strong>Target pool</strong></h4>
+                  <div class="row">
+                    <div class="col-md-12">              			              
+                      <input type="text" class="form-control" value="{{ target_pool }}" name="target_pool" readonly="readonly">			             
+                    </div>
+                  </div>
+                  <h4><strong>Target device</strong></h4>
+                  <div class="row">
+                    <div class="col-md-12">              			              
+                      <input type="text" class="form-control" value="{{ attach_target }}" name="attach_target" readonly="readonly">			             
+                    </div>
+                  </div> 
+                  <h4><strong>Attach device</strong></h4>       
+                  <div class="row">
+                    <div class="col-md-8"> 
+                      <button type="submit" class="btn btn-warning" >Attach</button>                       			              
+                    </div>
+                    <div class="col-md-4">
+                      <div class="checkbox">
+                        <label>
+                          <input name="forced" value="true" type="checkbox"> Forced
+                        </label>
+                      </div>         
+                    </div>
+                  </div>                    
+                </li>        
+              </ul>		
+          </div>
+          <div class="col-md-8">
+            <h2><strong>Available resources</strong></h2>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Source</th>
+                  <th>Type</th>                
+                  <th>Size</th>                
+                  <th>Check</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- for source in sources %}
+                <tr>
+                  <th>{{ loop.index }}</th>
+                  {%- set icon = "glyphicon glyphicon-hdd" -%}
+                  {%- if source["type"] == "file" -%}
+                  {%- set icon = "glyphicon glyphicon-file" -%}
+                  {%- endif -%}
+                  <th>{{ source["name"] }}</th>
+                  <th><span class="{{ icon }}" aria-hidden="true"></span> {{ source["type"] }}</th>
+                  <th>{{ source["status"] }}</th>
+                  <th>      
+                      <input type="radio" value="{{ source["name"]}}" name="device">                  
+                  </th>
+                </tr>
+                {%- endfor %}
+              </tbody>
+            </table>
+          </div>
+        </form>
+      </div>              	        			
+{%- endblock -%} 

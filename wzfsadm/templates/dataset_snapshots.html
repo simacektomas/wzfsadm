@@ -1,0 +1,59 @@
+{%- if dataset["snapshots"] -%}
+<h2><strong>Snapshots</strong> <span class="badge">{{ dataset["snapshots"]|length }}</span></h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <td><strong>Snapshot</strong></td>
+      <td><strong>Used</strong></td>
+      <td><strong>Created</strong></td> 
+      <td><strong>Rollback</strong></td>
+    </tr>
+  </thead>
+  <tbody>
+  {%- for snapshot in dataset["snapshots"] -%}
+    <tr>
+      <td><a href="/dataset/detail?dataset={{ snapshot["name"] }}"><strong>{{ snapshot["name"] }}</strong></a></td>
+      <td>{{ snapshot["used"] }}</td>
+      <td>{{ snapshot["creation"] }}</td>
+      <td>
+        <div class="btn-group" role="group">
+          <button type="button" data-toggle="modal" data-target="#{{ loop.index }}" class="btn btn-warning btn-xs">Rollback</button>               
+        </div>        
+      </td>
+    </tr>
+  {%- endfor -%}
+  </tbody>
+</table>
+{%- endif -%}
+{%- for snapshot in dataset["snapshots"] -%}
+<div id="{{ loop.index }}" class="modal fade" tabindex="-1" role="dialog" >
+  <div class="modal-dialog modal-sm">
+    <form method="GET" action="/dataset/rollback" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Dataset rollback</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Rollback to:</label>
+            <input type="text" class="form-control" value="{{ snapshot["name"] }}" name="snapshot" readonly="readonly">
+          </div>
+          <div class="from-group">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="recent" value="true"> Destroy more recent snapshots
+              </label>
+            </div>
+          </div>                
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-warning" >Rollback</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{%- endfor -%}
+
