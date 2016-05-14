@@ -4,5 +4,6 @@ wzfsadm:solaris:cmd:RO::/usr/bin/iostat:euid=0
 wzfsadm:solaris:cmd:RO::/usr/sbin/zfs:euid=0
 wzfsadm:solaris:cmd:RO::/usr/sbin/zpool:euid=0
 wzfsadm:solaris:cmd:RO::/usr/sbin/fdisk:euid=0
+wzfsadm:solaris:cmd:RO::/usr/sbin/fstyp:euid=0
 #wzfsadm
 
