@@ -37,7 +37,7 @@ class PoolClass( BaseModuleClass ):
 			if not os.path.isdir( file_sources ):
 				self.logger.log_error( "WARNING file_sources directory %s does not exist. Using default %s.", file_sources, self.FILE_SOURCES )
 			else:
-				FILE_SOURCES = file_sources
+				self.FILE_SOURCES = file_sources
 
 		except ConfigParser.NoSectionError: 
 			self.logger.log_error( "ERROR No section [sources] in poolmodule.conf." )
