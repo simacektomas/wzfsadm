@@ -20,7 +20,7 @@ class Authenticator:
 		try:
 			user_database = config.get( 'auth', 'user_database' )
 			if not os.path.isfile( user_database ):
-				self.logger.log_error( "WARNING user_database %s does not exist. Using default %s.", user_database, self.user_database )
+				self.logger.log_error( "WARNING user_database %s does not exist. Using default %s.", user_database, self.AUTH_FILE )
 			else:
 				self.AUTH_FILE = user_database
 			
