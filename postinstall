@@ -40,9 +40,13 @@ fi
 
 echo "[OK] .... RBAC exec permisions for wzfsadm created."
 
+# BUG handling
+cp $RBAC_PROFILES ${RBAC_PROFILES}.orig
+cp $RBAC_EXEC ${RBAC_EXEC}.orig
 
-touch "$RBAC_PROFILES"
-touch "$RBAC_EXEC"
+rm ${RBAC_PROFILES}.orig
+rm ${RBAC_EXEC}.orig
+
 
 # Assign profile to role
 rolemod -P "wzfsadm" "$ROLE"
