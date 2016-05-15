@@ -31,32 +31,35 @@ do
 	# Check if there is some FS on the disk
 	fstyp "/dev/dsk/${LOGICAL}s0" &> /dev/null
 	[[ $? == 0 ]] && STATUS="used"
-
-	#SIZE="`diskspace /dev/rdsk/${LOGICAL}p0 2> /dev/null`GB"
-	#[[ $SIZE == "GB" ]] && SIZE="-"
+	
 	echo "${LOGICAL} disk $STATUS"
 
-	# For each disk read disk table to get parition 
-	DISK_TABLE=`/usr/sbin/fdisk -W - /dev/rdsk/${LOGICAL}p0 | sed '/^\*/d;/^$/d'`
+	if [[ $STATUS == 'free' ]];
+	then
+		# For each disk read disk table to get parition 
+		DISK_TABLE=`/usr/sbin/fdisk -W - /dev/rdsk/${LOGICAL}p0 | sed '/^\*/d;/^$/d'`
 	
-	# Cannot read disk table for current disk
-	[[ $? != "0" ]] && continue
-	while read -a PARTITON
-	do
-		PART_NUM=$(( $PART_NUM + 1 ))			
+		# Cannot read disk table for current disk
+		[[ $? != "0" ]] && continue
+		while read -a PARTITON
+		do
+			PART_NUM=$(( $PART_NUM + 1 ))			
 
-		STATUS="free"		
-		# There is no partition
-		[[ ${PARTITON[0]} == "0" ]] && continue
-		# Check if there is some FS on the partition
-		fstyp "/dev/dsk/${LOGICAL}p${PART_NUM}" &> /dev/null
-		[[ $? == 0 ]] && STATUS="used"
+			STATUS="free"		
+			# There is no partition
+			[[ ${PARTITON[0]} == "0" ]] && continue
+			# Check if there is some FS on the partition
+			fstyp "/dev/dsk/${LOGICAL}p${PART_NUM}" &> /dev/null
+			[[ $? == 0 ]] && STATUS="used"
 
-		echo "${LOGICAL}p${PART_NUM} partition $STATUS"
+			echo "${LOGICAL}p${PART_NUM} partition $STATUS"
 
-		# Increment part_num
+			# Increment part_num
 		
 		
-	done <<< "$DISK_TABLE"
+		done <<< "$DISK_TABLE"
+	fi
+
+
 
 done <<< "$INPUT"
