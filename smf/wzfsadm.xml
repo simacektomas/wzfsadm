@@ -43,12 +43,7 @@
             take no action when the service is refreshed.  Alternatively,
             you may wish to provide a method to reread the SMF repository
             and act on any configuration changes.
-        -->
-        <exec_method
-		timeout_seconds="60"
-		type="method"
-		name="refresh"
-		exec="/lib/svc/method/wzfsadm restart"/>
+        -->     
 	
         <!--
             We do not need a duration property group, because contract is
