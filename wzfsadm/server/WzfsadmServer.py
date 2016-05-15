@@ -30,9 +30,7 @@ class WzfsadmServer( ThreadingMixIn, TCPServer ):
 	CERT_FILE = "/etc/wzfsadm/ssl/cert.pem"
 	KEY_FILE = "/etc/wzfsadm/ssl/key.pem"
 	ADDRESS_FILTER = [
-			"127.0.0.1",
-			"192.168.0.104",
-			"192.168.0.101"
+			"127.0.0.1"
 		  ]
 	CONFIG_FILE = '/etc/wzfsadm/main.conf'	
 	logger = Logger()
