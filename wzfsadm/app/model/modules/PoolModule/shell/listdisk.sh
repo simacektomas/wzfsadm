@@ -29,7 +29,7 @@ do
 	PART_NUM=0
 	STATUS="free"
 	# Check if there is some FS on the disk
-	fstyp "/dev/dsk/${LOGICAL}p0" &> /dev/null
+	fstyp "/dev/dsk/${LOGICAL}s0" &> /dev/null
 	[[ $? == 0 ]] && STATUS="used"
 
 	#SIZE="`diskspace /dev/rdsk/${LOGICAL}p0 2> /dev/null`GB"
