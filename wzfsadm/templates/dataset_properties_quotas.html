@@ -5,7 +5,7 @@
   </thead>
   <tbody>
     <tr>
-      <td><strong>Quota:<strong></td>
+      <td><strong>Quota:</strong></td>
       {%- set bar = "default" -%}
       {%- if dataset["quota"] != "none" -%}
       {%- set bar = "primary" -%}
@@ -111,7 +111,7 @@
   </div>
 </div>
 <!-- Modal for defgrouquota -->
-<div id="defuserquota" class="modal fade" tabindex="-1" role="dialog" >
+<div id="defgroupquota" class="modal fade" tabindex="-1" role="dialog" >
   <div class="modal-dialog">
     <form method="GET" action="/dataset/setproperty" >
       <div class="modal-content">
