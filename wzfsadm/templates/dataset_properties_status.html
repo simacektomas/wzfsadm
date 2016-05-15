@@ -63,7 +63,7 @@
       {%- set bar = "primary" -%}
       {%- endif -%}
       <td><span class="label label-{{ bar }}">{{ dataset["encryption"] }}</span></td>
-      <td><a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#encryption_status">Edit</a></td>
+      <td></td>
     </tr>
     <tr>
       <td><strong>Execution</strong></td>
@@ -190,42 +190,6 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary" name="property" value="dedup">Set deduplication</button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
-<!-- Modal for encryption -->
-<div id="encryption_status" class="modal fade" tabindex="-1" role="dialog" >
-  <div class="modal-dialog">
-    <form method="GET" action="/dataset/setproperty" >
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Set encryption for {{ dataset["name"] }}</h4>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label>Set encryption to:</label>
-            <input type="text" class="form-control" value="{{ dataset["name"] }}" name="dataset" readonly="readonly">
-          </div>          
-          <div class="from-group">  
-            <label>Encryption:</label>
-              <select class="form-control" name="value">
-                <option value="on">On</option>
-                <option value="off">Off</option>
-                <option value="aes-128-ccm">aes-128-ccm</option>
-                <option value="aes-192-ccm">aes-192-ccm</option>
-                <option value="aes-256-ccm">aes-256-ccm</option>
-                <option value="aes-128-gcm">aes-128-gcm</option>
-                <option value="aes-192-gcm">aes-192-gcm</option>
-                <option value="aes-256-gcm">aes-256-gcm</option>
-               </select>       
-          </div>                      
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" name="property" value="encryption">Set encryption</button>
         </div>
       </div>
     </form>
