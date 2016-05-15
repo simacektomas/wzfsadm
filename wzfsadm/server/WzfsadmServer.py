@@ -158,7 +158,5 @@ class WzfsadmServer( ThreadingMixIn, TCPServer ):
 	#-------------------------------------------------------------------------#
 	def handle_error( self, request, client_address, exc ):
 
-		self.logger.log_error( "ERROR During request from %s:%s. %s", client_address[0], client_address[1], exc )
-		import traceback
-		traceback.print_exc() # XXX But this goes to stderr!
+		self.logger.log_error( "ERROR During request from %s:%s. %s", client_address[0], client_address[1], exc )		
 	
